@@ -4,9 +4,9 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"github.com/xinggaoya/qwen-sdk/constant"
+	"github.com/xinggaoya/qwen-sdk/model"
 	"net/http"
-	"qwen-sdk/constant"
-	"qwen-sdk/model"
 )
 
 type Chat struct {
