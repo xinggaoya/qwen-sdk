@@ -4,36 +4,38 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"github.com/xinggaoya/qwen-sdk/constant"
 	"github.com/xinggaoya/qwen-sdk/model"
 	"net/http"
 )
 
 type Chat struct {
-	BaseUrl string
-	ApiKey  string
-	Model   string
+	BaseUrl   string
+	ApiKey    string
+	QWenModel string
+	Params    qwenmodel.Parameters
 }
 
-func NewDefaultChat(apiKey string) *Chat {
+func NewWithDefaultChat(apiKey string) *Chat {
 	return &Chat{
-		BaseUrl: apiKey,
-		ApiKey:  constant.ChatApiKey,
-		Model:   constant.ChatModel,
+		BaseUrl:   qwenmodel.ChatBaseUrl,
+		ApiKey:    apiKey,
+		QWenModel: qwenmodel.ChatQWenModel,
+		Params:    qwenmodel.Parameters{EnableSearch: true},
 	}
 }
 
-// GetChatAnswer 获取聊天回复
-func (c *Chat) GetChatAnswer(messages []model.Messages) model.Response {
+// GetAIReply 获取聊天回复
+func (c *Chat) GetAIReply(messages []qwenmodel.Messages) qwenmodel.Response {
 	client := http.Client{}
 
+	if !checkParams(c) {
+		return qwenmodel.Response{}
+	}
 	// body
-	body := model.QWenTurbo{
-		Model: constant.ChatModel,
-		Input: model.Input{Messages: messages},
-		Parameters: model.Parameters{
-			EnableSearch: true,
-		},
+	body := qwenmodel.QWenTurbo{
+		Model:      c.QWenModel,
+		Input:      qwenmodel.Input{Messages: messages},
+		Parameters: c.Params,
 	}
 	jsonBody, err := json.Marshal(body)
 	// 创建请求
@@ -54,7 +56,7 @@ func (c *Chat) GetChatAnswer(messages []model.Messages) model.Response {
 	defer resp.Body.Close()
 
 	// 读取响应
-	var result model.Response
+	var result qwenmodel.Response
 
 	err = json.NewDecoder(resp.Body).Decode(&result)
 
@@ -63,4 +65,21 @@ func (c *Chat) GetChatAnswer(messages []model.Messages) model.Response {
 	}
 
 	return result
+}
+
+// 效验参数
+func checkParams(chat *Chat) bool {
+	if chat.QWenModel == "" {
+		fmt.Errorf("QWenModel is empty")
+		return false
+	}
+	if chat.ApiKey == "" {
+		fmt.Errorf("ApiKey is empty")
+		return false
+	}
+	if chat.BaseUrl == "" {
+		fmt.Errorf("BaseUrl is empty")
+		return false
+	}
+	return true
 }
