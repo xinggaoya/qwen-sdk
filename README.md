@@ -4,7 +4,7 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/xinggaoya/qwen-sdk)](https://goreportcard.com/report/github.com/xinggaoya/qwen-sdk)
 [![GitHub license](https://img.shields.io/github/license/xinggaoya/qwen-sdk)](LICENSE)
 
-Qwen SDK 是一个专为开发者打造的便捷工具包，提供了一系列功能强大的API和工具函数，帮助您轻松实现与Qwen平台的集成。
+Qwen SDK 是一个专为开发者打造的便捷工具包，提供了一系列功能强大的API和工具函数，帮助您轻松实现与通义千问平台的集成。
 
 ## 特性
 
@@ -61,5 +61,3 @@ func main() {
 Qwen SDK 遵循 MIT 许可证。有关详细信息，请参阅 LICENSE 文件。
 
 ---
-
-Made with ❤️ by Your Team / Your Name
