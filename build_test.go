@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"github.com/xinggaoya/qwen-sdk/chat"
-	qwenmodel "github.com/xinggaoya/qwen-sdk/model"
+	"github.com/xinggaoya/qwen-sdk/qwen"
+	qwenmodel "github.com/xinggaoya/qwen-sdk/qwenmodel"
 	"testing"
 )
 
@@ -11,7 +11,7 @@ func TestAdd(t *testing.T) {
 
 	// 初始化QWEN聊天机器人客户端，使用您的API密钥
 	apiKey := "your api key"
-	qwenclient := chat.NewWithDefaultChat(apiKey)
+	qwenclient := qwen.NewWithDefaultChat(apiKey)
 
 	//qwenclient.QWenModel = "new model"
 

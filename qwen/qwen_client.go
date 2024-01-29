@@ -1,10 +1,10 @@
-package chat
+package qwen
 
 import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"github.com/xinggaoya/qwen-sdk/model"
+	"github.com/xinggaoya/qwen-sdk/qwenmodel"
 	"net/http"
 )
 
