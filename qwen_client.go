@@ -23,7 +23,7 @@ func NewWithDefaultChat(apiKey string) *Chat {
 		BaseUrl:   ChatBaseUrl,
 		ApiKey:    apiKey,
 		QWenModel: ChatQWenModel,
-		Params:    Parameters{EnableSearch: true},
+		Params:    Parameters{EnableSearch: true, IncrementalOutput: true, ResponseFormat: "message"},
 	}
 }
 

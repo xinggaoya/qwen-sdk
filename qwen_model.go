@@ -21,7 +21,9 @@ type QWenTurbo struct {
 }
 
 type Parameters struct {
-	EnableSearch bool `json:"enable_search"`
+	EnableSearch      bool   `json:"enable_search"`
+	IncrementalOutput bool   `json:"incremental_output"`
+	ResponseFormat    string `json:"response_format"`
 }
 
 type Messages struct {
