@@ -1,4 +1,4 @@
-package qwenmodel
+package main
 
 const (
 	ChatUser = "user"
