@@ -113,6 +113,7 @@ func (c *Chat) GetAIReplyStream(messages []Messages) (<-chan string, error) {
 	// Handle streaming response
 	messageChan := make(chan string)
 	go func() {
+		info := ""
 		defer resp.Body.Close()
 		reader := bufio.NewReader(resp.Body)
 		for {
@@ -138,7 +139,10 @@ func (c *Chat) GetAIReplyStream(messages []Messages) (<-chan string, error) {
 				if err != nil {
 					fmt.Fprintf(os.Stderr, "Error parsing JSON: %v\n", err)
 				}
-				messageChan <- result.Output.Text
+				if info != result.Output.Text {
+					info = result.Output.Text
+					messageChan <- info
+				}
 			}
 		}
 	}()
