@@ -48,3 +48,9 @@ type Response struct {
 	Usage     Usage  `json:"usage"`
 	RequestID string `json:"request_id"`
 }
+
+type ResponseError struct {
+	Code      string `json:"code"`
+	Message   string `json:"message"`
+	RequestId string `json:"request_id"`
+}
