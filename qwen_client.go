@@ -28,11 +28,11 @@ func NewWithDefaultChat(apiKey string) *Chat {
 }
 
 // GetAIReply 获取聊天回复
-func (c *Chat) GetAIReply(messages []Messages) Response {
+func (c *Chat) GetAIReply(messages []Messages) (Response, error) {
 	client := http.Client{}
 
 	if !checkParams(c) {
-		return Response{}
+		return Response{}, errors.New("invalid parameters")
 	}
 	// body
 	body := QWenTurbo{
@@ -54,24 +54,34 @@ func (c *Chat) GetAIReply(messages []Messages) Response {
 	resp, err := client.Do(req)
 
 	if err != nil {
-		fmt.Printf("client.Do failed,err:%v\n", err)
+		return Response{}, fmt.Errorf("http.Client.Do failed,err:%v", err)
 	}
 	defer resp.Body.Close()
 
+	b, err := io.ReadAll(resp.Body)
 	// 读取响应
 	var result Response
 
-	err = json.NewDecoder(resp.Body).Decode(&result)
+	if resp.StatusCode != http.StatusOK {
+		var errResp ResponseError
+		err = json.Unmarshal(b, &errResp)
+		if err != nil {
+			return Response{}, err
+		}
+		return Response{}, fmt.Errorf("failed,err:%v,code:%s,message:%s", err, errResp.Code, errResp.Message)
+	}
+
+	err = json.Unmarshal(b, &result)
 
 	if err != nil {
 		fmt.Printf("json.NewDecoder failed,err:%v\n", err)
 	}
 
-	return result
+	return result, nil
 }
 
 // GetAIReplyStream 获取聊天回复
-func (c *Chat) GetAIReplyStream(messages []Messages) (<-chan string, error) {
+func (c *Chat) GetAIReplyStream(messages []Messages) (<-chan Response, error) {
 	client := http.Client{}
 
 	if !checkParams(c) {
@@ -105,13 +115,20 @@ func (c *Chat) GetAIReplyStream(messages []Messages) (<-chan string, error) {
 	if err != nil {
 		return nil, fmt.Errorf("request failed: %w", err)
 	}
+	defer resp.Body.Close()
+
 	if resp.StatusCode != http.StatusOK {
-		defer resp.Body.Close()
-		return nil, fmt.Errorf("unexpected status code: %d", resp.StatusCode)
+		var errResp ResponseError
+		b, _ := io.ReadAll(resp.Body)
+		err = json.Unmarshal(b, &errResp)
+		if err != nil {
+			return nil, err
+		}
+		return nil, fmt.Errorf("failed,err:%v,code:%s,message:%s", err, errResp.Code, errResp.Message)
 	}
 
 	// Handle streaming response
-	messageChan := make(chan string)
+	messageChan := make(chan Response)
 	go func() {
 		info := ""
 		defer resp.Body.Close()
@@ -140,8 +157,7 @@ func (c *Chat) GetAIReplyStream(messages []Messages) (<-chan string, error) {
 					fmt.Fprintf(os.Stderr, "Error parsing JSON: %v\n", err)
 				}
 				if info != result.Output.Text {
-					info = result.Output.Text
-					messageChan <- info
+					messageChan <- result
 				}
 			}
 		}
