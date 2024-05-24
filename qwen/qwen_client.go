@@ -23,7 +23,7 @@ func NewWithDefaultChat(apiKey string) *Chat {
 		BaseUrl:   ChatBaseUrl,
 		ApiKey:    apiKey,
 		QWenModel: ChatQWenModel,
-		Params:    Parameters{EnableSearch: true, IncrementalOutput: true, ResponseFormat: "message"},
+		Params:    Parameters{EnableSearch: true, ResponseFormat: "message"},
 	}
 }
 
@@ -115,7 +115,6 @@ func (c *Chat) GetAIReplyStream(messages []Messages) (<-chan Response, error) {
 	if err != nil {
 		return nil, fmt.Errorf("request failed: %w", err)
 	}
-	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
 		var errResp ResponseError
