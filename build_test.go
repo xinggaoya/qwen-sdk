@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/xinggaoya/qwen-sdk/qwen"
 	"testing"
 )
 
@@ -9,15 +10,15 @@ func TestRun(t *testing.T) {
 
 	// 初始化QWEN聊天机器人客户端，使用您的API密钥
 	apiKey := "your api key"
-	qwenclient := NewWithDefaultChat(apiKey)
+	qwenclient := qwen.NewWithDefaultChat(apiKey)
 
 	//qwenclient.QWenModel = "new model"
 
 	// 定义一条消息对话的历史记录
-	messages := []Messages{
-		{Role: ChatUser, Content: "你好"},
-		{Role: ChatBot, Content: "你好！有什么我能为你做的吗？"},
-		{Role: ChatUser, Content: "我想买一件衬衫"},
+	messages := []qwen.Messages{
+		{Role: qwen.ChatUser, Content: "你好"},
+		{Role: qwen.ChatBot, Content: "你好！有什么我能为你做的吗？"},
+		{Role: qwen.ChatUser, Content: "我想买一件衬衫"},
 	}
 
 	// 获取AI对消息的回复
@@ -34,15 +35,15 @@ func TestRun(t *testing.T) {
 
 func TestRunStream(t *testing.T) {
 	apiKey := "your api key"
-	qwenclient := NewWithDefaultChat(apiKey)
+	qwenclient := qwen.NewWithDefaultChat(apiKey)
 
 	//qwenclient.QWenModel = "new model"
 
 	// 定义一条消息对话的历史记录
-	messages := []Messages{
-		{Role: ChatUser, Content: "你好"},
-		{Role: ChatBot, Content: "你好！有什么我能为你做的吗？"},
-		{Role: ChatUser, Content: "我想买一件衬衫"},
+	messages := []qwen.Messages{
+		{Role: qwen.ChatUser, Content: "你好"},
+		{Role: qwen.ChatBot, Content: "你好！有什么我能为你做的吗？"},
+		{Role: qwen.ChatUser, Content: "我想买一件衬衫"},
 	}
 
 	// 获取AI对消息的回复
