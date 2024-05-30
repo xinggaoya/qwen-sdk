@@ -34,7 +34,7 @@ import "github.com/xinggaoya/qwen-sdk"
 func main() {
    // 初始化QWEN聊天机器人客户端，使用您的API密钥
    apiKey := "your api key"
-   qwenclient := chat.NewWithDefaultChat(apiKey)
+   qwenclient := qwen.NewWithDefaultChat(apiKey)
 
    //qwenclient.QWenModel = "new model"
 
