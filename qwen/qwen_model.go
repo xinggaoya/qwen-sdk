@@ -1,8 +1,9 @@
 package qwen
 
 const (
-	ChatUser = "user"
-	ChatBot  = "assistant"
+	ChatUser   = "user"
+	ChatSystem = "system"
+	ChatBot    = "assistant"
 )
 
 const (
