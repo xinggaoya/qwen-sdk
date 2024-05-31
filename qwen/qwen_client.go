@@ -20,9 +20,9 @@ type Chat struct {
 
 func NewWithDefaultChat(apiKey string) *Chat {
 	return &Chat{
-		BaseUrl:   ChatBaseUrl,
+		BaseUrl:   ModelBaseUrl,
 		ApiKey:    apiKey,
-		QWenModel: ChatQWenModel,
+		QWenModel: ModelQWenTurbo,
 		Params:    Parameters{EnableSearch: true, ResponseFormat: "message"},
 	}
 }
@@ -44,7 +44,7 @@ func (c *Chat) GetAIReply(messages []Messages) (Response, error) {
 	// 创建请求
 	req, err := http.NewRequest("POST", c.BaseUrl, bytes.NewReader(jsonBody))
 	if err != nil {
-		fmt.Printf("NewRequest failed,err:%v\n", err)
+		return Response{}, fmt.Errorf("http.NewRequest failed,err:%v", err)
 	}
 	// 设置请求头
 	req.Header.Set("Content-Type", "application/json")

@@ -7,8 +7,14 @@ const (
 )
 
 const (
-	ChatQWenModel = "qwen-max"
-	ChatBaseUrl   = "https://dashscope.aliyuncs.com/api/v1/services/aigc/text-generation/generation"
+	ModelQWenTurbo          = "qwen-turbo"
+	ModelQWenPlus           = "qwen-plus"
+	ModelQWenMax            = "qwen-max"
+	ModelQWenMax0428        = "qwen-max-0428"
+	ModelQWenMax0403        = "qwen-max-0403"
+	ModelQWenMax0107        = "qwen-max-0107"
+	ModelQWenMaxLongContext = "qwen-max-longcontext"
+	ModelBaseUrl            = "https://dashscope.aliyuncs.com/api/v1/services/aigc/text-generation/generation"
 )
 
 type Input struct {
