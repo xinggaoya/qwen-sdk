@@ -12,7 +12,7 @@ func TestRun(t *testing.T) {
 	apiKey := "your api key"
 	qwenclient := qwen.NewWithDefaultChat(apiKey)
 
-	//qwenclient.QWenModel = "new model"
+	//qwenclient.QWenModel = qwen.ModelQWenMax
 
 	// 定义一条消息对话的历史记录
 	messages := []qwen.Messages{

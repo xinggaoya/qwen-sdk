@@ -20,43 +20,39 @@ Qwen SDK 是一个专为开发者打造的便捷工具包，提供了一系列�
 go get github.com/xinggaoya/qwen-sdk
 ```
 
-或者将它添加到您的项目 `go.mod` 文件中的依赖列表：
-
-```sh
-require github.com/xinggaoya/qwen-sdk v1.0.0
-```
-
 ## 快速开始
 
 ```go
-import "github.com/xinggaoya/qwen-sdk"
-
 func main() {
-   // 初始化QWEN聊天机器人客户端，使用您的API密钥
-   apiKey := "your api key"
-   qwenclient := qwen.NewWithDefaultChat(apiKey)
+// 初始化QWEN聊天机器人客户端，使用您的API密钥
+apiKey := "your api key"
+qwenclient := qwen.NewWithDefaultChat(apiKey)
 
-   //qwenclient.QWenModel = "new model"
+//qwenclient.QWenModel = qwen.ModelQWenMax
 
-   // 定义一条消息对话的历史记录
-   messages := []qwenmodel.Messages{
-   {Role: qwenmodel.ChatUser, Content: "你好"},
-   {Role: qwenmodel.ChatBot, Content: "你好！有什么我能为你做的吗？"},
-   {Role: qwenmodel.ChatUser, Content: "我想买一件衬衫"},
-   }
+// 定义一条消息对话的历史记录
+messages := []qwen.Messages{
+{Role: qwen.ChatUser, Content: "你好"},
+{Role: qwen.ChatBot, Content: "你好！有什么我能为你做的吗？"},
+{Role: qwen.ChatUser, Content: "我想买一件衬衫"},
+}
 
-   // 获取AI对消息的回复
-   resp := qwenclient.GetAIReply(messages)
+// 获取AI对消息的回复
+resp, err := qwenclient.GetAIReply(messages)
+if err != nil {
+fmt.Printf("获取AI回复失败：%v\n", err)
+return
+}
 
-   // 打印收到的回复
-   fmt.Printf("收到的回复：%v\n", resp.Output.Text)
+// 打印收到的回复
+fmt.Printf("收到的回复：%v\n", resp.Output.Text)
 }
 
 ```
 
 ## 文档
 
-详细文档及API参考，请访问 [Qwen SDK Docs](https://qwen.github.io/sdk/docs)。
+详细文档及API参考，请访问 [通义千问Docs](https://help.aliyun.com/zh/dashscope/developer-reference/model-introduction?spm=a2c4g.11186623.0.0.7e5f46c1n85VCA)。
 
 ## 示例
 
